@@ -13,16 +13,16 @@
 // ************* deadlock
 //  simple 2 resources two processes in a loop
 // 
-#define nPr 2
-#define nRes 2
-int alloc[nPr][nRes] = { { 0, 1 },
-                  { 1, 0 } };
-
-
-int request[nPr][nRes] = { { 1, 0 },
-                        { 0, 1 } };
-
-int avail[nRes] = { 0, 0 };
+//#define nPr 2
+//#define nRes 2
+//int alloc[nPr][nRes] = { { 0, 1 },
+//                  { 1, 0 } };
+//
+//
+//int request[nPr][nRes] = { { 1, 0 },
+//                        { 0, 1 } };
+//
+//int avail[nRes] = { 0, 0 };
 
 // 
 // 
@@ -62,34 +62,34 @@ int avail[nRes] = { 0, 0 };
 
     // ************** safe
      // jenny video ex 1 with p1 -> r1 taken out
-    //#define nPr 3
-    //#define nRes 3
-    //
-    //int alloc[nPr][nRes] = 
-    //                { { 0, 0, 1 },
-    //                { 1, 0, 1 }, 
-    //                { 0, 1, 0 } }; 
-    //
-    //
-    //int request[nPr][nRes] = 
-    //                    { { 0, 0, 0 }, 
-    //                    { 0, 1, 0 }, 
-    //                    { 0, 0, 1 } }; 
-    //
-    //int avail[nRes] = { 0, 0, 0 };
+    #define nPr 3
+    #define nRes 3
+    
+    int alloc[nPr][nRes] = 
+                    { { 0, 0, 1 },
+                    { 1, 0, 1 }, 
+                    { 0, 1, 0 } }; 
+    
+    
+    int request[nPr][nRes] = 
+                        { { 0, 0, 0 }, 
+                        { 0, 1, 0 }, 
+                        { 0, 0, 1 } }; 
+    
+    int avail[nRes] = { 0, 0, 0 };
 
 
 void analyseProcesses(bool procFinishStatus[], int procFinishSeq[])
 {
-    int procsFinished = 0;
-    int execTime = 0;
+    int procsFinished = 0,
+        execTime = 0;
 
     bool deadlockExists = false;
 
     for (int i = 0; i < nPr; i++)
         procFinishStatus[i] = false;   // flag all processes are current running
 
-    while ((execTime < nPr) && (procsFinished < nPr))
+    while ((execTime++ < nPr) && (procsFinished < nPr))
     {
         for (int procNum = 0; procNum < nPr; procNum++) // iterate over process list
         {
@@ -112,13 +112,13 @@ void analyseProcesses(bool procFinishStatus[], int procFinishSeq[])
                         avail[res] += alloc[procNum][res];    // return allocated resources for process to available pool
 
                     procFinishStatus[procNum] = true;    // flag this process as having completed
+                    printf("Process %d completed in %d time units\n", procNum, execTime);
                 }
             }
         }
-        execTime++;
     }
 
-    printf("Time:%d\n", execTime);
+    printf("Total run time:%d\n", execTime);
 }
 
 
