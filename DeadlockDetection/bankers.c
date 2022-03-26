@@ -82,12 +82,14 @@ int avail[nRes] = { 0, 0 };
 void analyseProcesses(bool procFinishStatus[], int procFinishSeq[])
 {
     int procsFinished = 0;
+    int execTime = 0;
+
     bool deadlockExists = false;
 
     for (int i = 0; i < nPr; i++)
         procFinishStatus[i] = false;   // flag all processes are current running
 
-    for (int procNum = 0; procNum < nPr; procNum++) // re-run check over processes
+    while ((execTime < nPr) && (procsFinished < nPr))
     {
         for (int procNum = 0; procNum < nPr; procNum++) // iterate over process list
         {
@@ -113,9 +115,11 @@ void analyseProcesses(bool procFinishStatus[], int procFinishSeq[])
                 }
             }
         }
+        execTime++;
     }
-}
 
+    printf("Time:%d\n", execTime);
+}
 
 
 void main()
